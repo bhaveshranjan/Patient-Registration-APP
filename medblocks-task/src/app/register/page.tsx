@@ -6,6 +6,10 @@ import db from '@/lib/db'
 export default function RegisterPage() {
   const [name, setName] = useState('')
   const [age, setAge] = useState<number | ''>('')
+  const [gender, setGender] = useState('')
+  const [contactNumber, setContactNumber] = useState('')
+  const [bloodGroup, setBloodGroup] = useState('')
+  const [knownAllergies, setKnownAllergies] = useState('')
 
   useEffect(() => {
     (async () => {
@@ -14,8 +18,28 @@ export default function RegisterPage() {
           id SERIAL PRIMARY KEY,
           name TEXT,
           age INTEGER,
-          gender TEXT
+          gender TEXT,
+          contact_number TEXT,
+          blood_group TEXT,
+          known_allergies TEXT
         );
+      `);
+
+      await db.exec(`
+        DO $$
+        BEGIN
+          IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'patients' AND column_name = 'contact_number') THEN
+            ALTER TABLE patients ADD COLUMN contact_number TEXT;
+          END IF;
+
+          IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'patients' AND column_name = 'blood_group') THEN
+            ALTER TABLE patients ADD COLUMN blood_group TEXT;
+          END IF;
+
+          IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'patients' AND column_name = 'known_allergies') THEN
+            ALTER TABLE patients ADD COLUMN known_allergies TEXT;
+          END IF;
+        END $$;
       `);
     })();
   }, []);
@@ -23,9 +47,9 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      // Directly interpolate the values into the query string
       await db.exec(`
-        INSERT INTO patients (name, age) VALUES ('${name}', ${age});
+        INSERT INTO patients (name, age, gender, contact_number, blood_group, known_allergies)
+        VALUES ('${name}', ${age}, '${gender}', '${contactNumber}', '${bloodGroup}', '${knownAllergies}');
       `)
 
       const channel = new BroadcastChannel('patient_channel')
@@ -33,7 +57,11 @@ export default function RegisterPage() {
       channel.close()
       setName('')
       setAge('')
-      console.log('Patient registered successfully!') // Console log when patient is registered
+      setGender('')
+      setContactNumber('')
+      setBloodGroup('')
+      setKnownAllergies('')
+      console.log('Patient registered successfully!') 
       alert('Patient registered!')
     } catch (error) {
       console.error('Error during registration:', error)
@@ -59,6 +87,40 @@ export default function RegisterPage() {
         onChange={(e) => setAge(Number(e.target.value))}
         className="border p-2 w-full"
         required
+      />
+      <select
+        value={gender}
+        onChange={(e) => setGender(e.target.value)}
+        className="border p-2 w-full"
+        required
+      >
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+      <input
+        type="text"
+        value={contactNumber}
+        placeholder="Contact Number"
+        onChange={(e) => setContactNumber(e.target.value)}
+        className="border p-2 w-full"
+        required
+      />
+      <input
+        type="text"
+        value={bloodGroup}
+        placeholder="Blood Group"
+        onChange={(e) => setBloodGroup(e.target.value)}
+        className="border p-2 w-full"
+        required
+      />
+      <textarea
+        value={knownAllergies}
+        placeholder="Known Allergies"
+        onChange={(e) => setKnownAllergies(e.target.value)}
+        className="border p-2 w-full"
+        rows={3}
       />
       <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
         Submit

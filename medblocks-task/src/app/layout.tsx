@@ -7,9 +7,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <title>Medblocks Task</title>
       </head>
-      <body>
+      <body className="flex flex-col min-h-screen justify-between">
         <Navbar />
-        <main>{children}</main> 
+        <main className="flex-grow flex items-center justify-center">
+          {children}
+        </main>
       </body>
     </html>
   );
