@@ -1,3 +1,6 @@
-import { PGlite } from '@electric-sql/pglite'
+"use client";
 
-export const db = new PGlite('idb://medblocks-db')
+import { PGlite } from "@electric-sql/pglite";
+const db = new PGlite("idb://medblocks-db");
+
+export default db;

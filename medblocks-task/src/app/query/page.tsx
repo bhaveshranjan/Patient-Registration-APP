@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { db } from '@/lib/db'
+import db  from '@/lib/db'
 
 export default function QueryPage() {
   const [query, setQuery] = useState('SELECT * FROM patients')

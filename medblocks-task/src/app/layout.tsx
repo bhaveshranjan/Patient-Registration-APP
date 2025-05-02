@@ -1,16 +1,14 @@
-import "./globals.css";
-import Navbar from "@/components/Navbar";
+import Navbar from '@/components/Navbar';
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <title>Medblocks Task</title>
+      </head>
       <body>
         <Navbar />
-        <main className="p-4">{children}</main>
+        <main>{children}</main> {/* This will render the content of the current page */}
       </body>
     </html>
   );
