@@ -1,14 +1,13 @@
 'use client';
-import { useEffect, useState } from 'react';
 
-export default function Navbar() {
-  const [isMounted, setIsMounted] = useState(false);
+import { useRouter } from 'next/navigation';
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+const Navbar = () => {
+  const router = useRouter();
 
-  if (!isMounted) return null; // Prevent rendering on SSR
+  const handleNavigate = (path: string) => {
+    router.push(path);
+  };
 
   return (
     <nav className="bg-blue-500 text-white p-4 flex justify-between">
@@ -20,4 +19,6 @@ export default function Navbar() {
       </ul>
     </nav>
   );
-}
+};
+
+export default Navbar;

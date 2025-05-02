@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar';
+import './globals.css';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Navbar />
-        <main>{children}</main> {/* This will render the content of the current page */}
+        <main>{children}</main> 
       </body>
     </html>
   );
