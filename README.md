@@ -126,4 +126,16 @@ You should see the installed version printed (e.g., `v20.10.0`).
 
 ---
 
+## 🧠 Challenges Faced During Development
+
+- **Persisting Data Across Refreshes**: Since the task required persistence in the browser, I had to understand how `PGlite` works with IndexedDB under the hood to ensure data stays intact after reloads.
+
+- **Multiple Tabs Syncing**: Keeping patient records in sync across tabs was challenging. I used `BroadcastChannel` API to broadcast updates between tabs in real time.
+
+- **Running SQL in Browser**: Integrating SQL queries directly in the frontend required proper sandboxing and error handling to prevent the app from crashing on invalid queries.
+
+- **No Backend Usage**: Designing the whole app to be frontend-only while achieving functionality similar to backend persistence took careful architectural choices.
+
+---
+
 Thank You
