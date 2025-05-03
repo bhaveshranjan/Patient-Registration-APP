@@ -49,6 +49,18 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+
+  if (!name || !age || !gender || !contactNumber || !bloodGroup) {
+    toast.error('Please fill out all required fields.');
+    return;
+  }
+
+  if (!/^\d{10}$/.test(contactNumber)) {
+    toast.error('Please enter a valid 10-digit contact number.');
+    return;
+  }
+
     try {
       await db.exec(`
         INSERT INTO patients (name, age, gender, contact_number, blood_group, known_allergies)
@@ -72,62 +84,114 @@ export default function RegisterPage() {
 
   return (
     <>
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
-      <h2 className="text-xl font-semibold">Register New Patient</h2>
-      <input
-        type="text"
-        value={name}
-        placeholder="Patient Name"
-        onChange={(e) => setName(e.target.value)}
-        className="border p-2 w-full"
-        required
-      />
-      <input
-        type="number"
-        value={age}
-        placeholder="Age"
-        onChange={(e) => setAge(Number(e.target.value))}
-        className="border p-2 w-full"
-        required
-      />
-      <select
-        value={gender}
-        onChange={(e) => setGender(e.target.value)}
-        className="border p-2 w-full"
-        required
-      >
-        <option value="">Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
-      <input
-        type="text"
-        value={contactNumber}
-        placeholder="Contact Number"
-        onChange={(e) => setContactNumber(e.target.value)}
-        className="border p-2 w-full"
-        required
-      />
-      <input
-        type="text"
-        value={bloodGroup}
-        placeholder="Blood Group"
-        onChange={(e) => setBloodGroup(e.target.value)}
-        className="border p-2 w-full"
-        required
-      />
-      <textarea
-        value={knownAllergies}
-        placeholder="Known Allergies"
-        onChange={(e) => setKnownAllergies(e.target.value)}
-        className="border p-2 w-full"
-        rows={3}
-      />
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-        Submit
-      </button>
-    </form>
+   <form onSubmit={handleSubmit} className="space-y-4 max-w-xl">
+  <h2 className="text-xl font-semibold underline underline-offset-4 mb-4">Register New Patient</h2>
+
+  {/* Name */}
+  <div className="flex items-center gap-4">
+    <label className="w-40 font-medium">
+      Patient Name <span className="text-red-600">*</span>
+    </label>
+    <input
+      type="text"
+      value={name}
+      onChange={(e) => setName(e.target.value)}
+      placeholder="Enter patient name"
+      className="border p-2 flex-1 rounded"
+      required
+    />
+  </div>
+
+  {/* Age */}
+  <div className="flex items-center gap-4">
+    <label className="w-40 font-medium">
+      Age <span className="text-red-600">*</span>
+    </label>
+    <input
+  type="text"
+  inputMode="numeric"
+  pattern="[1-9][0-9]*"
+  value={age}
+  onChange={(e) => {
+    const value = e.target.value;
+    if (value === '' || /^[1-9][0-9]*$/.test(value)) {
+      setAge(value === '' ? '' : Number(value));
+    }
+  }}
+  placeholder="Enter age"
+  className="border p-2 flex-1 rounded"
+  required
+/>
+
+  </div>
+
+  {/* Gender */}
+  <div className="flex items-center gap-4">
+    <label className="w-40 font-medium">
+      Gender <span className="text-red-600">*</span>
+    </label>
+    <select
+      value={gender}
+      onChange={(e) => setGender(e.target.value)}
+      className="border p-2 flex-1 rounded"
+      required
+    >
+      <option value="">Select Gender</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  {/* Contact Number */}
+  <div className="flex items-center gap-4">
+    <label className="w-40 font-medium">
+      Contact Number <span className="text-red-600">*</span>
+    </label>
+    <input
+      type="text"
+      value={contactNumber}
+      onChange={(e) => setContactNumber(e.target.value)}
+      placeholder="Enter 10-digit number"
+      className="border p-2 flex-1 rounded"
+      required
+    />
+  </div>
+
+  {/* Blood Group */}
+  <div className="flex items-center gap-4">
+    <label className="w-40 font-medium">
+      Blood Group <span className="text-red-600">*</span>
+    </label>
+    <input
+      type="text"
+      value={bloodGroup}
+      onChange={(e) => setBloodGroup(e.target.value)}
+      placeholder="e.g. A+, B-, O+"
+      className="border p-2 flex-1 rounded"
+      required
+    />
+  </div>
+
+  {/* Known Allergies */}
+  <div className="flex items-start gap-4">
+    <label className="w-40 font-medium pt-2">Known Allergies</label>
+    <textarea
+      value={knownAllergies}
+      onChange={(e) => setKnownAllergies(e.target.value)}
+      placeholder="Mention allergies (optional)"
+      className="border p-2 flex-1 rounded"
+      rows={3}
+    />
+  </div>
+
+  {/* Submit Button */}
+  <div className="flex justify-end">
+    <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+      Submit
+    </button>
+  </div>
+</form>
     <ToastContainer />
     </>
 
