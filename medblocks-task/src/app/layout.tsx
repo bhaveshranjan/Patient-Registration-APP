@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex flex-col min-h-screen justify-between">
         <Navbar />
-        <main className="flex-grow flex items-center justify-center">
+        <main className="flex-grow flex items-center justify-center mx-4">
           {children}
         </main>
       </body>

@@ -2,6 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import db from '@/lib/db'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function RegisterPage() {
   const [name, setName] = useState('')
@@ -61,15 +64,14 @@ export default function RegisterPage() {
       setContactNumber('')
       setBloodGroup('')
       setKnownAllergies('')
-      console.log('Patient registered successfully!') 
-      alert('Patient registered!')
+      toast.success('Patient registered successfully!')
     } catch (error) {
-      console.error('Error during registration:', error)
-      alert('There was an error registering the patient.')
+      toast.error('There was an error registering the patient.')
     }
   }
 
   return (
+    <>
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <h2 className="text-xl font-semibold">Register New Patient</h2>
       <input
@@ -126,5 +128,8 @@ export default function RegisterPage() {
         Submit
       </button>
     </form>
+    <ToastContainer />
+    </>
+
   )
 }
