@@ -138,4 +138,4 @@ You should see the installed version printed (e.g., `v20.10.0`).
 
 ---
 
-Thank You
+Thank You 🙏
