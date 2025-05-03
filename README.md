@@ -14,10 +14,10 @@ Open your terminal or command prompt and run:
 ```bash
 node -v
 ```
-
 If Node.js is not installed, download and install it from the official website:
 
-🔗 [https://nodejs.org/en/download](https://nodejs.org/en/download)
+🔗 <a href="https://nodejs.org/en/download" target="_blank">https://nodejs.org/en/download</a>
+
 
 After installation, run the command again to confirm:
 
